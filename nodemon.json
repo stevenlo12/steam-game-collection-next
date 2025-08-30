@@ -1,0 +1,15 @@
+{
+  "watch": ["app.js", "bin/", "routes/", "models/", "config/", "scripts/"],
+  "ext": "js,json",
+  "ignore": ["node_modules/", "public/", "migrations/", "*.log", "*.sqlite", "*.db"],
+  "env": {
+    "NODE_ENV": "development",
+    "PORT": "120"
+  },
+  "delay": "1000",
+  "verbose": true,
+  "restartable": "rs",
+  "colours": true,
+  "legacyWatch": false,
+  "pollingInterval": 1000
+}
