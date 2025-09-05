@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     
     tools {
         nodejs 'node-24'
@@ -16,6 +21,19 @@ pipeline {
     }
     
     stages {
+        stage('Install Docker') {
+            steps {
+                sh '''
+                    # Install Docker if not available
+                    if ! command -v docker &> /dev/null; then
+                        apt-get update
+                        apt-get install -y docker.io
+                        service docker start
+                    fi
+                '''
+            }
+        }
+        
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
