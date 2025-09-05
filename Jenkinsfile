@@ -8,13 +8,13 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                sh 'yarn install --frozen-lockfile'
             }
         }
         
         stage('Database Migration') {
             steps {
-                sh 'npm run db:migrate'
+                sh 'yarn run db:migrate'
             }
         }
         
