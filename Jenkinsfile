@@ -28,9 +28,29 @@ pipeline {
             }
         }
         
-        stage('Build Test') {
+        stage('Start Application') {
             steps {
-                sh 'npm run prod'
+                script {
+                    sh '''
+                        # Kill any existing process on port 80
+                        pkill -f "node ./bin/www" || true
+                        
+                        # Start the application in background
+                        nohup npm run prod > app.log 2>&1 &
+                        
+                        # Wait a moment for the app to start
+                        sleep 5
+                        
+                        # Check if the app is running
+                        if pgrep -f "node ./bin/www" > /dev/null; then
+                            echo "Application started successfully!"
+                            echo "Application is accessible at http://localhost:80"
+                        else
+                            echo "Failed to start application"
+                            exit 1
+                        fi
+                    '''
+                }
             }
         }
     }
@@ -41,7 +61,8 @@ pipeline {
         }
         
         success {
-            echo 'Build completed successfully!'
+            echo 'Pipeline completed successfully!'
+            echo 'Your application is now running and accessible at http://localhost:80'
         }
     }
 }
