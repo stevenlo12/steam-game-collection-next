@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_API_BASE_URL": "http://localhost:120/api"
+  },
+  "functions": {
+    "src/pages/**/*.tsx": {
+      "maxDuration": 30
+    }
+  }
+}
